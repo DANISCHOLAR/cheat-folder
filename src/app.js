@@ -1,7 +1,6 @@
 const process = require("process");
 const { exec } = require("child_process");
 const util = require("util");
-const { existsSync } = require("fs");
 const execAsync = util.promisify(exec);
 const {
   parse,
@@ -27,22 +26,9 @@ module.exports = function ({ commitsPerDay, weekdaysOnly, startDate, endDate, re
   (async function () {
     const spinner = ora("Generating your GitHub activity\n").start();
 
-    const historyFolder = "cheat-folder";
-
-    // Remove git history folder in case if it already exists.]
-    if (existsSync(`./${historyFolder}`) && !resume) {
-      await execAsync(
-        `${process.platform === "win32" ? "rmdir /s /q" : "rm -rf"
-        } ${historyFolder}`
-      );
-
-      // Create git history folder.
-      await createGitDirectory(historyFolder)
-
-    } else if (!existsSync(`./${historyFolder}`)) {
-
-      // Create git history folder.
-      await createGitDirectory(historyFolder)
+    // Commits will be created in the current repository
+    if (!resume) {
+      // Clear previous commits by resetting if needed
     }
 
     // Create commits.
@@ -75,11 +61,7 @@ module.exports = function ({ commitsPerDay, weekdaysOnly, startDate, endDate, re
 };
 
 
-async function createGitDirectory(historyFolder) {
-  await execAsync(`mkdir ${historyFolder}`);
-  process.chdir(historyFolder);
-  await execAsync(`git init`);
-}
+
 
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
