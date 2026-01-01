@@ -43,7 +43,7 @@ module.exports = function ({ commitsPerDay, weekdaysOnly, startDate, endDate, re
 
       await execAsync(`echo "${date}" > foo.txt`);
       await execAsync(`git add .`);
-      await execAsync(`git commit --quiet --date "${date}" -m "cheating"`);
+      await execAsync(`git commit --quiet --date "${date.toISOString()}" -m "cheating"`);
     }
 
     spinner.succeed();
