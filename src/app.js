@@ -41,7 +41,7 @@ module.exports = function ({ commitsPerDay, weekdaysOnly, startDate, endDate, re
       }).format(date);
       spinner.text = `Generating your Github activity... (${dateFormatted})\n`;
 
-      await execAsync(`echo "${date}" > foo.txt`);
+      await execAsync(`echo "${date}" > commit.txt`);
       await execAsync(`git add .`);
       await execAsync(`git commit --quiet --date "${date.toISOString()}" -m "cheating"`);
     }
